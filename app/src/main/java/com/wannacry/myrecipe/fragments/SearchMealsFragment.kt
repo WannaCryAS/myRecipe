@@ -51,7 +51,7 @@ class SearchMealsFragment : Fragment(R.layout.fragment_search_meals) {
             searchMeals()
         }
         var searchJob: Job? = null
-        searchMealsBinding.etSearchQueryInput.addTextChangedListener {searchQuery ->
+        searchMealsBinding.etSearchQueryInput.addTextChangedListener { searchQuery ->
             searchJob?.cancel()
             searchJob = lifecycleScope.launch {
                 delay(500)
@@ -61,7 +61,7 @@ class SearchMealsFragment : Fragment(R.layout.fragment_search_meals) {
         }
     }
 
-    private fun searchMeals(){
+    private fun searchMeals() {
         val searchQuery = searchMealsBinding.etSearchQueryInput.text.toString()
         if (searchQuery.isNotEmpty()) {
             mainViewModel.searchMeals(searchQuery)
@@ -69,15 +69,20 @@ class SearchMealsFragment : Fragment(R.layout.fragment_search_meals) {
         }
     }
 
-    private fun observeSearchedMeals(){
-        mainViewModel.observeSearchedMealsLiveData().observe(viewLifecycleOwner){searchedMeals ->
+    private fun observeSearchedMeals() {
+        mainViewModel.observeSearchedMealsLiveData().observe(viewLifecycleOwner) { searchedMeals ->
             setupSearchedMealsRecyclerViewAdapter(searchedMeals)
         }
     }
 
-    private fun setupSearchedMealsRecyclerViewAdapter(searchedMeals: List<Meal>){
-        val verticalGridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-        searchMealsRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_meal_item, searchedMeals, true) {view, searchedMeal, _ ->
+    private fun setupSearchedMealsRecyclerViewAdapter(searchedMeals: List<Meal>) {
+        val verticalGridLayoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        searchMealsRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_meal_item,
+            searchedMeals,
+            true
+        ) { view, searchedMeal, _ ->
             layoutMealItemBinding = LayoutMealItemBinding.bind(view)
             layoutMealItemBinding.tvMealName.text = searchedMeal.strMeal
             Glide
@@ -96,7 +101,7 @@ class SearchMealsFragment : Fragment(R.layout.fragment_search_meals) {
         }
     }
 
-    private fun onSearchedMealClicked(searchMeal: Meal){
+    private fun onSearchedMealClicked(searchMeal: Meal) {
         layoutMealItemBinding.clMealItem.setOnClickListener {
             val intent = Intent(requireContext(), MealActivity::class.java)
             intent.apply {

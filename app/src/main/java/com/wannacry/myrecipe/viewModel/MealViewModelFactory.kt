@@ -6,7 +6,7 @@ import com.wannacry.myrecipe.repository.FavoriteMealRepository
 
 class MealViewModelFactory(
     private val favoriteMealRepository: FavoriteMealRepository
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MealViewModel(favoriteMealRepository) as T
     }

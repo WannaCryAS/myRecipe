@@ -2,7 +2,6 @@ package com.wannacry.myrecipe.fragments.bottomSheet
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.wannacry.myrecipe.R
 import com.wannacry.myrecipe.activities.MainActivity
 import com.wannacry.myrecipe.activities.MealActivity
-import com.wannacry.myrecipe.data.Meal
 import com.wannacry.myrecipe.databinding.FragmentEditDeleteBottomSheetBinding
 import com.wannacry.myrecipe.utils.Contants.MEAL_AREA
 import com.wannacry.myrecipe.utils.Contants.MEAL_CATEGORY
@@ -32,8 +30,13 @@ class EditDeleteBottomSheetFragment : BottomSheetDialogFragment() {
     private val editDeleteBottomSheetBinding get() = _editDeleteBottomSheetBinding!!
 
     companion object {
-        @JvmStatic
-        fun newInstance(mealId: String, mealName: String?, mealArea: String?, mealCategory: String?, mealThumb: String?) =
+        fun newInstance(
+            mealId: String,
+            mealName: String?,
+            mealArea: String?,
+            mealCategory: String?,
+            mealThumb: String?
+        ) =
             EditDeleteBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putString(MEAL_ID, mealId)
@@ -61,7 +64,8 @@ class EditDeleteBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _editDeleteBottomSheetBinding = FragmentEditDeleteBottomSheetBinding.inflate(inflater, container, false)
+        _editDeleteBottomSheetBinding =
+            FragmentEditDeleteBottomSheetBinding.inflate(inflater, container, false)
         return editDeleteBottomSheetBinding.root
     }
 
@@ -72,7 +76,7 @@ class EditDeleteBottomSheetFragment : BottomSheetDialogFragment() {
         onBottonClicked()
     }
 
-    private fun setupMealInfoToViews(){
+    private fun setupMealInfoToViews() {
         editDeleteBottomSheetBinding.tvBottomSheetMealName.text = mealName
         editDeleteBottomSheetBinding.tvBottomSheetMealArea.text = mealArea
         editDeleteBottomSheetBinding.tvBottomSheetMealCategory.text = mealCategory
@@ -84,7 +88,7 @@ class EditDeleteBottomSheetFragment : BottomSheetDialogFragment() {
             .into(editDeleteBottomSheetBinding.ivBottomSheetMeal)
     }
 
-    private fun onReadMoreClicked(){
+    private fun onReadMoreClicked() {
         editDeleteBottomSheetBinding.tvBottomSheetReadMore.setOnClickListener {
             val intent = Intent(activity, MealActivity::class.java)
             intent.apply {
@@ -100,14 +104,14 @@ class EditDeleteBottomSheetFragment : BottomSheetDialogFragment() {
     private fun onBottonClicked() {
         editDeleteBottomSheetBinding.btnDelete.setOnClickListener {
 
-            mealId?.let { it1 -> mainViewModel.deleteRecipe(it1) }
+            mealId?.let { id -> mainViewModel.deleteRecipe(id) }
             onDestroyView()
-                Snackbar
-                    .make(requireView(), "Successfully removed from Favorites", Snackbar.LENGTH_LONG)
-                    .setBackgroundTint(requireContext().getColor(R.color.light_accent))
-                    .setTextColor(requireContext().getColor(R.color.off_white))
-                    .setActionTextColor(requireContext().getColor(R.color.accent))
-                    .show()
+            Snackbar
+                .make(requireView(), "Successfully removed from Favorites", Snackbar.LENGTH_LONG)
+                .setBackgroundTint(requireContext().getColor(R.color.light_accent))
+                .setTextColor(requireContext().getColor(R.color.off_white))
+                .setActionTextColor(requireContext().getColor(R.color.accent))
+                .show()
 
             onDestroyView()
         }

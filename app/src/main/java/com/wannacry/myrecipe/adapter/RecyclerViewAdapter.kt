@@ -11,11 +11,12 @@ class RecyclerViewAdapter<T>(
     var items: List<T>,
     private val isRecyclable: Boolean,
     private val bindView: (view: View, item: T, position: Int) -> Unit
-): RecyclerView.Adapter<RecyclerViewAdapter<T>.BaseViewHolder>() {
+) : RecyclerView.Adapter<RecyclerViewAdapter<T>.BaseViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerViewAdapter<T>.BaseViewHolder = BaseViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false))
+    ): RecyclerViewAdapter<T>.BaseViewHolder =
+        BaseViewHolder(LayoutInflater.from(parent.context).inflate(layout, parent, false))
 
     override fun onBindViewHolder(
         holder: RecyclerViewAdapter<T>.BaseViewHolder,
@@ -29,8 +30,8 @@ class RecyclerViewAdapter<T>(
 
     inner class BaseViewHolder(
         itemView: View
-    ): RecyclerView.ViewHolder(itemView) {
-        fun bind(item: T, position: Int){
+    ) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: T, position: Int) {
             bindView.invoke(itemView, item, position)
         }
     }

@@ -45,14 +45,14 @@ class MealActivity : AppCompatActivity() {
         observeMealDetails()
     }
 
-    private fun getMealInfoFromIntent(){
+    private fun getMealInfoFromIntent() {
         val intent = intent
         mealId = intent.getStringExtra(MEAL_ID)!!
         mealName = intent.getStringExtra(MEAL_NAME)!!
         mealThumb = intent.getStringExtra(MEAL_THUMB)!!
     }
 
-    private fun setUpMealInfoToViews(){
+    private fun setUpMealInfoToViews() {
         Glide
             .with(this)
             .load(mealThumb)
@@ -67,7 +67,7 @@ class MealActivity : AppCompatActivity() {
     }
 
     private fun observeMealDetails() {
-        mealViewModel.observeMealDetailsLiveData().observe(this){meal ->
+        mealViewModel.observeMealDetailsLiveData().observe(this) { meal ->
             onResponseState()
             setupMealDetailsToViews(meal)
             onAddToFavoriteButtonClicked(meal)
@@ -98,7 +98,11 @@ class MealActivity : AppCompatActivity() {
         activityMealBinding.fabAddToFavorites.setOnClickListener {
             mealViewModel.addMealToFavorites(meal)
             Snackbar
-                .make(activityMealBinding.root, "Successfully saved to Favorites", Snackbar.LENGTH_SHORT)
+                .make(
+                    activityMealBinding.root,
+                    "Successfully saved to Favorites",
+                    Snackbar.LENGTH_SHORT
+                )
                 .setBackgroundTint(getColor(R.color.light_accent))
                 .setTextColor(getColor(R.color.off_white))
                 .show()

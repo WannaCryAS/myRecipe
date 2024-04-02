@@ -45,7 +45,7 @@ class CategoryMealsActivity : AppCompatActivity() {
     }
 
     private fun observeCategoryMeals() {
-        categoryMealsViewModel.observeCategoryMealsLiveData().observe(this){ mealsByCategory ->
+        categoryMealsViewModel.observeCategoryMealsLiveData().observe(this) { mealsByCategory ->
             val categoryMealsCountDisplayText = "$categoryName: ${mealsByCategory.size}"
             activityCategoryMealsBinding.tvCategoryMealsCount.text = categoryMealsCountDisplayText
             setUpCategoryMealsRecyclerView(mealsByCategory)
@@ -53,8 +53,13 @@ class CategoryMealsActivity : AppCompatActivity() {
     }
 
     private fun setUpCategoryMealsRecyclerView(mealsByCategory: List<MealByCategory>) {
-        val verticalGridLayoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-        categoryMealsRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_meal_item, mealsByCategory, true){ view, mealByCategory, _ ->
+        val verticalGridLayoutManager =
+            GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+        categoryMealsRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_meal_item,
+            mealsByCategory,
+            true
+        ) { view, mealByCategory, _ ->
             layoutMealItemBinding = LayoutMealItemBinding.bind(view)
             layoutMealItemBinding.tvMealName.text = mealByCategory.strMeal
             Glide
@@ -73,7 +78,7 @@ class CategoryMealsActivity : AppCompatActivity() {
         }
     }
 
-    private fun onCategoryMealClicked(mealByCategory: MealByCategory){
+    private fun onCategoryMealClicked(mealByCategory: MealByCategory) {
         layoutMealItemBinding.clMealItem.setOnClickListener {
             val intent = Intent(this, MealActivity::class.java)
             intent.apply {

@@ -10,21 +10,24 @@ import com.wannacry.myrecipe.data.MealByCategoryList
 import retrofit2.Call
 import retrofit2.Response
 
-class CategoryMealsViewModel: ViewModel() {
+class CategoryMealsViewModel : ViewModel() {
 
     private var categoryMealsLiveData = MutableLiveData<List<MealByCategory>>()
 
     fun observeCategoryMealsLiveData(): LiveData<List<MealByCategory>> = categoryMealsLiveData
 
-    fun getMealsByCategory(categoryName: String){
+    fun getMealsByCategory(categoryName: String) {
         val mealsByCategoryApiCall = MealApiClient.mealApiService.getMealsByCategory(categoryName)
-        mealsByCategoryApiCall.enqueue(object : retrofit2.Callback<MealByCategoryList>{
+        mealsByCategoryApiCall.enqueue(object : retrofit2.Callback<MealByCategoryList> {
             override fun onResponse(
                 call: Call<MealByCategoryList>,
                 response: Response<MealByCategoryList>
             ) {
                 if (!response.isSuccessful) {
-                    Log.d("MealsByCategoryApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "MealsByCategoryApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {

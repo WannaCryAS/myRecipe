@@ -43,15 +43,20 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         observeCategories()
     }
 
-    private fun observeCategories(){
-        mainViewModel.observeCategoriesLiveData().observe(viewLifecycleOwner){categories ->
+    private fun observeCategories() {
+        mainViewModel.observeCategoriesLiveData().observe(viewLifecycleOwner) { categories ->
             setupCategoriesRecyclerView(categories)
         }
     }
 
-    private fun setupCategoriesRecyclerView(categories: List<Category>){
-        val verticalGridLayoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
-        categoriesRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_category_item, categories, true){view, category, _ ->
+    private fun setupCategoriesRecyclerView(categories: List<Category>) {
+        val verticalGridLayoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+        categoriesRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_category_item,
+            categories,
+            true
+        ) { view, category, _ ->
             layoutCategoryItemBinding = LayoutCategoryItemBinding.bind(view)
             layoutCategoryItemBinding.cvCategoryItem.setBackgroundColor(requireContext().getColor(R.color.white))
             layoutCategoryItemBinding.tvCategory.text = category.strCategory
@@ -70,7 +75,7 @@ class CategoriesFragment : Fragment(R.layout.fragment_categories) {
         }
     }
 
-    private fun onCategoryClicked(category: Category){
+    private fun onCategoryClicked(category: Category) {
         layoutCategoryItemBinding.llCategoryItem.setOnClickListener {
             val intent = Intent(requireContext(), CategoryMealsActivity::class.java)
             intent.putExtra(CATEGORY_NAME, category.strCategory)

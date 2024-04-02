@@ -21,7 +21,7 @@ import retrofit2.Response
 class MainViewModel(
     private val favoriteMealRepository: FavoriteMealRepository,
     private val recipeRepository: RecipeRepository
-):ViewModel() {
+) : ViewModel() {
 
     private var randomMealState: Meal? = null
     private var randomMealLiveData = MutableLiveData<Meal>()
@@ -41,16 +41,19 @@ class MainViewModel(
     fun observeMealDetailsLiveData(): LiveData<Meal> = mealDetailsLiveData
     fun observeSearchedMealsLiveData(): LiveData<List<Meal>> = searchedMealsLiveData
 
-    fun getRandomMeal(){
-        randomMealState?.let {randomMeal ->
+    fun getRandomMeal() {
+        randomMealState?.let { randomMeal ->
             randomMealLiveData.postValue(randomMeal)
             return
         }
         val randomMealApiCall = MealApiClient.mealApiService.getRandomMeal()
-        randomMealApiCall.enqueue(object : retrofit2.Callback<MealList>{
+        randomMealApiCall.enqueue(object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (!response.isSuccessful) {
-                    Log.d("RandomMealApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "RandomMealApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {
@@ -69,12 +72,18 @@ class MainViewModel(
         })
     }
 
-    fun getPopularMeals(categoryName: String){
+    fun getPopularMeals(categoryName: String) {
         val popularMealsApiCall = MealApiClient.mealApiService.getPopularMeals(categoryName)
-        popularMealsApiCall.enqueue(object : retrofit2.Callback<PopularMealList>{
-            override fun onResponse(call: Call<PopularMealList>, response: Response<PopularMealList>) {
+        popularMealsApiCall.enqueue(object : retrofit2.Callback<PopularMealList> {
+            override fun onResponse(
+                call: Call<PopularMealList>,
+                response: Response<PopularMealList>
+            ) {
                 if (!response.isSuccessful) {
-                    Log.d("PopularMealsApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "PopularMealsApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {
@@ -94,10 +103,13 @@ class MainViewModel(
 
     fun getCategories() {
         val categoriesApiCall = MealApiClient.mealApiService.getCategories()
-        categoriesApiCall.enqueue(object : retrofit2.Callback<CategoryList>{
+        categoriesApiCall.enqueue(object : retrofit2.Callback<CategoryList> {
             override fun onResponse(call: Call<CategoryList>, response: Response<CategoryList>) {
                 if (!response.isSuccessful) {
-                    Log.d("CategoriesApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "CategoriesApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {
@@ -117,10 +129,13 @@ class MainViewModel(
 
     fun getMealDetailsById(id: String) {
         val mealDetailsApiCall = MealApiClient.mealApiService.getMealDetailsById(id = id)
-        mealDetailsApiCall.enqueue(object : retrofit2.Callback<MealList>{
+        mealDetailsApiCall.enqueue(object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (!response.isSuccessful) {
-                    Log.d("MealDetailsApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "MealDetailsApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {
@@ -143,12 +158,15 @@ class MainViewModel(
         })
     }
 
-    fun searchMeals(searchQuery: String){
+    fun searchMeals(searchQuery: String) {
         val searchMealsApiCall = MealApiClient.mealApiService.searchMeals(searchQuery)
-        searchMealsApiCall.enqueue(object : retrofit2.Callback<MealList>{
+        searchMealsApiCall.enqueue(object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (!response.isSuccessful) {
-                    Log.d("SearchMealsApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "SearchMealsApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {
@@ -165,7 +183,8 @@ class MainViewModel(
         })
     }
 
-    fun addRecipe(meal:Meal) {
+    fun addRecipe(meal: Meal) {
+        //TODO: Will update for edit function
         viewModelScope.launch {
             recipeRepository.addRecipe(meal)
         }
@@ -176,6 +195,7 @@ class MainViewModel(
             recipeRepository.deleteRecipe(id)
         }
     }
+
     fun removeMealFromFavorites(meal: Meal) {
         viewModelScope.launch {
             favoriteMealRepository.removeMealFromFavorites(meal)

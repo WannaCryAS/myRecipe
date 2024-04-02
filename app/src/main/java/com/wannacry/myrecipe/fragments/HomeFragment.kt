@@ -77,14 +77,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observePopularMeals() {
-        mainViewModel.observePopularMealsLiveData().observe(viewLifecycleOwner){ popularMeals ->
+        mainViewModel.observePopularMealsLiveData().observe(viewLifecycleOwner) { popularMeals ->
             setupPopularMealRecyclerView(popularMeals)
 
         }
     }
 
     private fun observerRecipe() {
-        mainViewModel.observerRecipeLiveData().observe(viewLifecycleOwner) { recipe->
+        mainViewModel.observerRecipeLiveData().observe(viewLifecycleOwner) { recipe ->
             setupRecipeRecycleView(recipe)
         }
     }
@@ -96,7 +96,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observeMealDetails() {
-        mainViewModel.observeMealDetailsLiveData().observe(viewLifecycleOwner){meal ->
+        mainViewModel.observeMealDetailsLiveData().observe(viewLifecycleOwner) { meal ->
             showMealInfoBottomSheet(meal)
         }
     }
@@ -108,7 +108,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun showRandomMealImageInView(randomMeal: Meal){
+    private fun showRandomMealImageInView(randomMeal: Meal) {
         Glide
             .with(this@HomeFragment)
             .load(randomMeal.strMealThumb)
@@ -118,7 +118,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             .into(homeBinding.ivImageRandomMeal)
     }
 
-    private fun onRandomMealClicked(randomMeal: Meal){
+    private fun onRandomMealClicked(randomMeal: Meal) {
         homeBinding.cvRandomMeal.setOnClickListener {
             val intent = Intent(activity, MealActivity::class.java)
             intent.apply {
@@ -131,19 +131,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setupRecipeRecycleView(meal: List<Meal>) {
-        val linearHorizontalLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recipeRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_recipe_item, meal, true) { view, meal, _ ->
-            layoutRecipeItemBinding = LayoutRecipeItemBinding.bind(view)
-            Glide
-                .with(this@HomeFragment)
-                .load(meal.strMealThumb)
-                .centerInside()
-                .placeholder(R.drawable.img_meal_placeholder)
-                .error(R.drawable.img_error)
-                .into(layoutRecipeItemBinding.ivRecipeItem)
-            onRecipeClicked(meal)
-            onRecipeLongClicked(meal)
-        }
+        val linearHorizontalLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recipeRecyclerViewAdapter =
+            RecyclerViewAdapter(R.layout.layout_recipe_item, meal, true) { view, meal, _ ->
+                layoutRecipeItemBinding = LayoutRecipeItemBinding.bind(view)
+                Glide
+                    .with(this@HomeFragment)
+                    .load(meal.strMealThumb)
+                    .centerInside()
+                    .placeholder(R.drawable.img_meal_placeholder)
+                    .error(R.drawable.img_error)
+                    .into(layoutRecipeItemBinding.ivRecipeItem)
+                onRecipeClicked(meal)
+                onRecipeLongClicked(meal)
+            }
         homeBinding.rvRecipe.apply {
             adapter = recipeRecyclerViewAdapter
             setHasFixedSize(true)
@@ -151,7 +153,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onRecipeClicked(meal: Meal){
+    private fun onRecipeClicked(meal: Meal) {
         layoutRecipeItemBinding.ivRecipeItem.setOnClickListener {
             val intent = Intent(activity, MealActivity::class.java)
             intent.apply {
@@ -163,7 +165,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onRecipeLongClicked(meal: Meal){
+    private fun onRecipeLongClicked(meal: Meal) {
         layoutRecipeItemBinding.ivRecipeItem.setOnLongClickListener {
             mainViewModel.getMealDetailsById(meal.idMeal)
             observeRecipeEditDelete()
@@ -171,9 +173,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun setupPopularMealRecyclerView(popularMeals: List<PopularMeal>){
-        val linearHorizontalLayoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        popularMealsRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_popular_meal_item, popularMeals, true){ view, popularMeal, _ ->
+    private fun setupPopularMealRecyclerView(popularMeals: List<PopularMeal>) {
+        val linearHorizontalLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        popularMealsRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_popular_meal_item,
+            popularMeals,
+            true
+        ) { view, popularMeal, _ ->
             layoutPopularMealItemBinding = LayoutPopularMealItemBinding.bind(view)
             Glide
                 .with(this@HomeFragment)
@@ -192,7 +199,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onPopularMealClicked(popularMeal: PopularMeal){
+    private fun onPopularMealClicked(popularMeal: PopularMeal) {
         layoutPopularMealItemBinding.ivPopularMealItem.setOnClickListener {
             val intent = Intent(activity, MealActivity::class.java)
             intent.apply {
@@ -204,7 +211,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onPopularMealLongClicked(popularMeal: PopularMeal){
+    private fun onPopularMealLongClicked(popularMeal: PopularMeal) {
         layoutPopularMealItemBinding.ivPopularMealItem.setOnLongClickListener {
             mainViewModel.getMealDetailsById(popularMeal.idMeal)
             observeMealDetails()
@@ -213,18 +220,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showMealInfoBottomSheet(meal: Meal) {
-        val mealInfoBottomSheetFragment = MealInfoBottomSheetFragment.newInstance(meal.idMeal, meal.strMeal, meal.strArea, meal.strCategory, meal.strMealThumb)
+        val mealInfoBottomSheetFragment = MealInfoBottomSheetFragment.newInstance(
+            meal.idMeal,
+            meal.strMeal,
+            meal.strArea,
+            meal.strCategory,
+            meal.strMealThumb
+        )
         mealInfoBottomSheetFragment.show(childFragmentManager, "Meal Info Bottom Sheet")
     }
 
     private fun showEditDeleteBottomSheet(meal: Meal) {
-        val mealInfoBottomSheetFragment = EditDeleteBottomSheetFragment.newInstance(meal.idMeal, meal.strMeal, meal.strArea, meal.strCategory, meal.strMealThumb)
+        val mealInfoBottomSheetFragment = EditDeleteBottomSheetFragment.newInstance(
+            meal.idMeal,
+            meal.strMeal,
+            meal.strArea,
+            meal.strCategory,
+            meal.strMealThumb
+        )
         mealInfoBottomSheetFragment.show(childFragmentManager, "Edit Delete Bottom Sheet")
     }
 
-    private fun setupCategoriesRecyclerView(categories: List<Category>){
-        val verticalGridLayoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
-        categoriesRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_category_item, categories, true){view, category, _ ->
+    private fun setupCategoriesRecyclerView(categories: List<Category>) {
+        val verticalGridLayoutManager =
+            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
+        categoriesRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_category_item,
+            categories,
+            true
+        ) { view, category, _ ->
             layoutCategoryItemBinding = LayoutCategoryItemBinding.bind(view)
             layoutCategoryItemBinding.tvCategory.text = category.strCategory
             Glide
@@ -242,7 +266,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onCategoryClicked(category: Category){
+    private fun onCategoryClicked(category: Category) {
         layoutCategoryItemBinding.llCategoryItem.setOnClickListener {
             val intent = Intent(requireContext(), CategoryMealsActivity::class.java)
             intent.putExtra(CATEGORY_NAME, category.strCategory)
@@ -250,7 +274,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun onSearchIconClicked(){
+    private fun onSearchIconClicked() {
         homeBinding.ivSearchIcon.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchMealsFragment)
         }

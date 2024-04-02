@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class MealViewModel(
     private val favoriteMealRepository: FavoriteMealRepository
-): ViewModel() {
+) : ViewModel() {
 
     private var mealDetailsLiveData = MutableLiveData<Meal>()
 
@@ -23,10 +23,13 @@ class MealViewModel(
 
     fun getMealDetailsById(id: String) {
         val mealDetailsApiCall = MealApiClient.mealApiService.getMealDetailsById(id = id)
-        mealDetailsApiCall.enqueue(object : retrofit2.Callback<MealList>{
+        mealDetailsApiCall.enqueue(object : retrofit2.Callback<MealList> {
             override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
                 if (!response.isSuccessful) {
-                    Log.d("MealDetailsApiCall", "onResponse Error: ${response.errorBody().toString()}")
+                    Log.d(
+                        "MealDetailsApiCall",
+                        "onResponse Error: ${response.errorBody().toString()}"
+                    )
                     return
                 }
                 if (response.body() == null) {

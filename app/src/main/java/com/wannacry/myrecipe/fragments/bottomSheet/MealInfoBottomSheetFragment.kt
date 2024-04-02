@@ -26,12 +26,13 @@ class MealInfoBottomSheetFragment : BottomSheetDialogFragment() {
     private val mealBottomSheetBinding get() = _mealBottomSheetBinding!!
 
     companion object {
-        @JvmStatic
-        fun newInstance(mealId: String,
-                        mealName: String?,
-                        mealArea: String?,
-                        mealCategory: String?,
-                        mealThumb: String?) =
+        fun newInstance(
+            mealId: String,
+            mealName: String?,
+            mealArea: String?,
+            mealCategory: String?,
+            mealThumb: String?
+        ) =
             MealInfoBottomSheetFragment().apply {
                 arguments = Bundle().apply {
                     putString(MEAL_ID, mealId)
@@ -59,7 +60,8 @@ class MealInfoBottomSheetFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _mealBottomSheetBinding = FragmentMealInfoBottomSheetBinding.inflate(inflater, container, false)
+        _mealBottomSheetBinding =
+            FragmentMealInfoBottomSheetBinding.inflate(inflater, container, false)
         return mealBottomSheetBinding.root
     }
 
@@ -69,7 +71,7 @@ class MealInfoBottomSheetFragment : BottomSheetDialogFragment() {
         onReadMoreClicked()
     }
 
-    private fun setupMealInfoToViews(){
+    private fun setupMealInfoToViews() {
         mealBottomSheetBinding.tvBottomSheetMealName.text = mealName
         mealBottomSheetBinding.tvBottomSheetMealArea.text = mealArea
         mealBottomSheetBinding.tvBottomSheetMealCategory.text = mealCategory
@@ -82,7 +84,7 @@ class MealInfoBottomSheetFragment : BottomSheetDialogFragment() {
             .into(mealBottomSheetBinding.ivBottomSheetMeal)
     }
 
-    private fun onReadMoreClicked(){
+    private fun onReadMoreClicked() {
         mealBottomSheetBinding.tvBottomSheetReadMore.setOnClickListener {
             val intent = Intent(activity, MealActivity::class.java)
             intent.apply {

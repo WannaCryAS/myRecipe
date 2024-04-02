@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val mainViewModelFactory = MainViewModelFactory(favoriteMealRepository, recipeRepository)
         ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -31,7 +32,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(contentView)
 
         val bnvMain = activityMainBinding.bnvMain
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcvMain) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fcvMain) as NavHostFragment
         val navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(bnvMain, navController)

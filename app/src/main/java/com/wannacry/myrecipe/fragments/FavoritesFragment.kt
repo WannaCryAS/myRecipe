@@ -49,15 +49,20 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
     }
 
     private fun observeFavoriteMeals() {
-        mainViewModel.observeFavoriteMealsLiveData().observe(viewLifecycleOwner) {favoriteMeals ->
+        mainViewModel.observeFavoriteMealsLiveData().observe(viewLifecycleOwner) { favoriteMeals ->
             setupFavoriteMealsRecyclerView(favoriteMeals)
             updateUI(favoriteMeals)
         }
     }
 
     private fun setupFavoriteMealsRecyclerView(favoriteMeals: List<Meal>) {
-        val verticalGridLayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-        favoriteMealRecyclerViewAdapter = RecyclerViewAdapter(R.layout.layout_meal_item, favoriteMeals, true) { view, favoriteMeal, _ ->
+        val verticalGridLayoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        favoriteMealRecyclerViewAdapter = RecyclerViewAdapter(
+            R.layout.layout_meal_item,
+            favoriteMeals,
+            true
+        ) { view, favoriteMeal, _ ->
             layoutMealItemBinding = LayoutMealItemBinding.bind(view)
             layoutMealItemBinding.tvMealName.text = favoriteMeal.strMeal
             Glide
@@ -89,7 +94,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
     }
 
-    private fun onFavoriteMealClicked(favoriteMeal: Meal){
+    private fun onFavoriteMealClicked(favoriteMeal: Meal) {
         layoutMealItemBinding.clMealItem.setOnClickListener {
             val intent = Intent(requireContext(), MealActivity::class.java)
             intent.apply {
@@ -101,11 +106,11 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
     }
 
-    private fun onFavoriteMealSwiped(){
+    private fun onFavoriteMealSwiped() {
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ){
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -119,10 +124,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
                 val mealToBeRemoved = favoriteMealRecyclerViewAdapter.items[position]
                 mainViewModel.removeMealFromFavorites(mealToBeRemoved)
                 Snackbar
-                    .make(requireView(), "Successfully removed from Favorites", Snackbar.LENGTH_LONG)
+                    .make(
+                        requireView(),
+                        "Successfully removed from Favorites",
+                        Snackbar.LENGTH_LONG
+                    )
                     .setBackgroundTint(requireContext().getColor(R.color.light_accent))
                     .setTextColor(requireContext().getColor(R.color.off_white))
-                    .setAction("Undo"){
+                    .setAction("Undo") {
                         mainViewModel.addFromFavorites(mealToBeRemoved)
                     }
                     .setActionTextColor(requireContext().getColor(R.color.accent))

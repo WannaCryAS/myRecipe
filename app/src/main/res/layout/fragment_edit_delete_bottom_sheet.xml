@@ -99,14 +99,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tvBottomSheetReadMore"
         android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEdit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/accent"
-            android:text="@string/edit_button"
-            android:textColor="@color/full_white"
-            app:cornerRadius="8dp"/>
+        <!--TODO: will update for edit button -->
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btnEdit"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="@color/accent"-->
+<!--            android:text="@string/edit_button"-->
+<!--            android:textColor="@color/full_white"-->
+<!--            app:cornerRadius="8dp"/>-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDelete"
