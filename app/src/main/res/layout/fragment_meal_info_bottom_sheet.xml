@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_meal_info_bottom_sheet"
+    android:background="@color/primary"
     tools:context=".fragments.bottomSheet.MealInfoBottomSheetFragment">
 
     <com.google.android.material.card.MaterialCardView

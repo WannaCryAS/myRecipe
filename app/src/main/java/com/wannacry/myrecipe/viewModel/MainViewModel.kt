@@ -31,7 +31,6 @@ class MainViewModel(
     private var recipeLiveData = recipeRepository.getAllRecipe()
     private var mealDetailsLiveData = MutableLiveData<Meal>()
     private var searchedMealsLiveData = MutableLiveData<List<Meal>>()
-    private var editDeleteLiveData = MutableLiveData<Meal>()
 
     fun observeRandomMealLiveData(): LiveData<Meal> = randomMealLiveData
     fun observePopularMealsLiveData(): LiveData<List<PopularMeal>> = popularMealsLiveData
